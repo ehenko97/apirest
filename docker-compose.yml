@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - DATABASE_URL=postgres://myuser:mypassword@postgres:5432/mydatabase
+      - REDIS_URL=redis://redis:6379/0
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
